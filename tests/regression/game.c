@@ -13,6 +13,41 @@ static void equal_world(const gamestate *before) {
     assert(state.has_wand == before->state.has_wand);
 }
 
+static void visible_minimap(void) {
+    /* Render the original game, then read its minimap player marker. This
+     * catches atlas samples collapsing to zero-size SDL source rectangles. */
+    SDL_setenv("SDL_VIDEODRIVER", "dummy", 1);
+    assert(SDL_Init(SDL_INIT_VIDEO) == 0);
+    SDL_Surface *surface = SDL_CreateRGBSurfaceWithFormat(0, HH_WIDTH, HH_HEIGHT, 32, SDL_PIXELFORMAT_ARGB8888);
+    assert(surface);
+    hh_renderer = SDL_CreateSoftwareRenderer(surface);
+    assert(hh_renderer);
+    hh_canvas = SDL_CreateTexture(hh_renderer, SDL_PIXELFORMAT_ARGB8888,
+                                 SDL_TEXTUREACCESS_TARGET, HH_WIDTH, HH_HEIGHT);
+    assert(hh_canvas);
+    screen_x = HH_WIDTH; screen_y = HH_HEIGHT;
+    init_graphics();
+    restart_game(); main_mode = M_game;
+    draw_init(); draw_world();
+    unsigned char pixels[HH_WIDTH * HH_HEIGHT * 4];
+    assert(SDL_RenderReadPixels(hh_renderer, NULL, SDL_PIXELFORMAT_RGBA32,
+                               pixels, HH_WIDTH * 4) == 0);
+    int sidebar = ((SIZE_X + 1) * 16 - 12 + 4) * 800 / 140;
+    int map_top = !strcmp(HH_GAME, "promesst2") ? 418 : 423;
+    int x = (int)lround((sidebar + 20 + px * 7) * HH_WIDTH / 800.0) + 1;
+    int y = (int)lround((map_top + py * 7) * HH_HEIGHT / 600.0) + 1;
+    unsigned char *marker = pixels + (y * HH_WIDTH + x) * 4;
+    fprintf(stderr, "%s: minimap player pixel=(%u,%u,%u) at (%d,%d)\n",
+            HH_GAME, marker[0], marker[1], marker[2], x, y);
+    assert(marker[0] == 179 && marker[1] == 128 && marker[2] == 179);
+    hh_game_cleanup();
+    hh_render_shutdown();
+    SDL_DestroyTexture(hh_canvas); hh_canvas = NULL;
+    SDL_DestroyRenderer(hh_renderer); hh_renderer = NULL;
+    SDL_FreeSurface(surface);
+    SDL_Quit();
+}
+
 int main(void) {
     restart_game();
     gamestate initial;
@@ -62,6 +97,7 @@ int main(void) {
     hh_viewport(240, 160, 1, &fit);
     assert(fit.w == 213 && fit.h == 160);
     flush_undo();
-    puts(HH_GAME ": world undo, save/reload, checkpoint, corrupt save, controls and square viewport passed");
+    visible_minimap();
+    puts(HH_GAME ": world undo, save/reload, checkpoint, corrupt save, controls, square viewport and visible minimap passed");
     return 0;
 }

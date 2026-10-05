@@ -104,6 +104,19 @@ static void quad(void) {
         int dy0 = (int)lround(y0 + (y1 - y0) * ys[y]);
         int dy1 = (int)lround(y0 + (y1 - y0) * ys[y + 1]);
         SDL_Rect src = {sx0, sy0, sx1 - sx0, sy1 - sy0};
+        /* The minimap and HUD borders stretch a single atlas texel. Their
+         * subpixel UV spans can round to zero; sample the midpoint instead
+         * of dropping a visible destination rectangle. */
+        if (src.w == 0) {
+            src.x = (int)floor(((sa + sb) / 2 - so) * image->width);
+            src.x = SDL_min(image->width - 1, SDL_max(0, src.x));
+            src.w = 1;
+        }
+        if (src.h == 0) {
+            src.y = (int)floor(((ta + tb) / 2 - to) * image->height);
+            src.y = SDL_min(image->height - 1, SDL_max(0, src.y));
+            src.h = 1;
+        }
         SDL_Rect dst = {dx0, dy0, dx1 - dx0, dy1 - dy0};
         SDL_RendererFlip flip = SDL_FLIP_NONE;
         if (sb < sa) flip = (SDL_RendererFlip)(flip | SDL_FLIP_HORIZONTAL);

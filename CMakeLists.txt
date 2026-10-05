@@ -48,7 +48,8 @@ foreach(GAME promesst promesst2)
   target_link_libraries(${GAME}_regression PRIVATE PkgConfig::SDL2 m)
   add_test(NAME ${GAME}_regression COMMAND ${GAME}_regression)
   set_tests_properties(${GAME}_regression PROPERTIES ENVIRONMENT
-    "PROMESST_SAVE_DIR=${CMAKE_CURRENT_BINARY_DIR}/test-saves/${GAME}")
+    "PROMESST_SAVE_DIR=${CMAKE_CURRENT_BINARY_DIR}/test-saves/${GAME}"
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/assets/${GAME}")
   add_executable(${GAME}_reference "${CMAKE_CURRENT_BINARY_DIR}/reference/${GAME}/main.c" ${PLATFORM})
   target_include_directories(${GAME}_reference PRIVATE src/platform/sdl2)
   target_compile_definitions(${GAME}_reference PRIVATE HH_GAME="${GAME}" HH_SAVE_MAGIC="${SAVE_MAGIC}")
