@@ -103,6 +103,7 @@ python3 scripts/package.py --local-full
 
 ## 验证与来源
 
+- [另外三个前身：PuzzleScript 五款游戏试用包](extras/puzzlescript/README.md)
 - [验证记录与真机待办](docs/validation.md)
 - [架构](docs/architecture.md)、[交付设计](docs/delivery.md)、[XF40H 方案](docs/devices/xf40h.md)
 - [一代官方下载](https://silverspaceship.com/promesst/)、[二代官方下载](https://silverspaceship.com/promesst2/)

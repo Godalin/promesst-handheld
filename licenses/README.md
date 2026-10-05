@@ -9,6 +9,11 @@
 生成的完整 ZIP 是本地个人使用产物，不是已经获得再分发授权的公开发行版本。
 公开发布包含原作代码的二进制也需要先确认授权，仅忽略素材不会改变这一点。
 
+`extras/puzzlescript/` 的附加获取工具使用 Alan Hazelden 的 Skipping Stones to Lonely Homes、Mirror Isles，
+以及 Jonah Ostroff 的 Heroes of Sokoban 三部曲。原作脚本、关卡和像素图案同样只在本地下载并被忽略；
+本项目 MIT 许可不覆盖这些游戏。生成的两个合集 ZIP 仅供本地试用，整体再分发授权尚未确认。
+用于开发机验证的官方 PuzzleScript PM 引擎也保存在被忽略的构建目录，不包含在试用包中。
+
 本项目新写的平台适配、获取、构建和测试代码使用 [MIT 许可](MIT.txt)。
 这项许可只覆盖本项目原创代码，不覆盖原作代码、关卡、素材或第三方组件。
 

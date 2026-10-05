@@ -1,0 +1,85 @@
+{
+  "games": [
+    {
+      "id": "skipping_stones",
+      "title": "Skipping Stones to Lonely Homes",
+      "author": "Alan Hazelden",
+      "url": "https://gist.githubusercontent.com/Draknek/d6fd6fcf84de185e2584/raw/e0094e064e9c41cc6eb54129386f8e94ecf2a255/script.txt",
+      "archive_name": "skipping_stones.txt",
+      "format": "script",
+      "rom_name": "Skipping Stones to Lonely Homes",
+      "download_sha256": "3f154da892e5f1a903d8077b46383628f170e53f10a22df4320f4574c209b964",
+      "source_sha256": "3f154da892e5f1a903d8077b46383628f170e53f10a22df4320f4574c209b964"
+    },
+    {
+      "id": "mirror_isles",
+      "title": "Mirror Isles",
+      "author": "Alan Hazelden",
+      "url": "https://gist.githubusercontent.com/Draknek/219a7db6511dad557b84/raw/f93419785957763e4bacab710ce9551b01a7b99a/script.txt",
+      "archive_name": "mirror_isles.txt",
+      "format": "script",
+      "rom_name": "Mirror Isles",
+      "download_sha256": "2b80842361900b41b86591e0899fc4251b8e05ed73631485c512a47248b916d4",
+      "source_sha256": "2b80842361900b41b86591e0899fc4251b8e05ed73631485c512a47248b916d4"
+    },
+    {
+      "id": "heroes_of_sokoban_1",
+      "title": "Heroes of Sokoban",
+      "author": "Jonah Ostroff",
+      "url": "https://sites.math.washington.edu/~ostroff/puzzles/Heroes_of_Sokoban.html",
+      "archive_name": "Heroes_of_Sokoban.html",
+      "format": "standalone_html",
+      "rom_name": "Heroes of Sokoban 1",
+      "download_sha256": "9811b0538cc7dd73cb7ef271d8f5ff5d4395329a7b87c6cf18c94d7a126bf311",
+      "source_sha256": "81a1d27115fc40c04f27bb39d0ef12ebffbea513e3fe9f550b5173bb683728a3"
+    },
+    {
+      "id": "heroes_of_sokoban_2",
+      "title": "Heroes of Sokoban II: Monsters",
+      "author": "Jonah Ostroff",
+      "url": "https://sites.math.washington.edu/~ostroff/puzzles/Heroes_of_Sokoban_II_Monsters.html",
+      "archive_name": "Heroes_of_Sokoban_II_Monsters.html",
+      "format": "standalone_html",
+      "rom_name": "Heroes of Sokoban 2 - Monsters",
+      "download_sha256": "a91a1e38706a1bf70a3d1d612a89370b1f5f7c86eefbe86e13a0e2288415f14e",
+      "source_sha256": "1f8b35dbd51d33552c0d394ec0dbc76cd6e8be6db253eedb267d3912ed1a9738"
+    },
+    {
+      "id": "heroes_of_sokoban_3",
+      "title": "Heroes of Sokoban III: The Bard and The Druid",
+      "author": "Jonah Ostroff",
+      "url": "https://sites.math.washington.edu/~ostroff/puzzles/Heroes_of_Sokoban_III_The_Bard_and_The_Druid.html",
+      "archive_name": "Heroes_of_Sokoban_III_The_Bard_and_The_Druid.html",
+      "format": "standalone_html",
+      "rom_name": "Heroes of Sokoban 3 - The Bard and The Druid",
+      "download_sha256": "380d343ad35a8f8caf6863341172a7771d0d28ced2824a7a3085990614562105",
+      "source_sha256": "f66ceb8f8a2c23a3cb270bad62cdf194e47479772cab94f154ed26f0ff7c20e0"
+    }
+  ],
+  "pm_test_engine": {
+    "repository": "PortsMaster/PortMaster-New",
+    "commit": "3fcdb796b828bfac8d62a40b24842b3215c60ab4",
+    "path": "ports/puzzlescriptpm/puzzlescriptpm/pruntime-node",
+    "files": {
+      "main.js": "3b3693a55877c2036e3d443fa74a85064417fdef",
+      "src/js/bitvec.js": "65d27d75777345156d39221706bdcb3b9ce638ce",
+      "src/js/codemirror/stringstream.js": "c7e12931eebc5c80499ef947031e444e6a4b002d",
+      "src/js/colors.js": "da4bfcf1403236d669397f7af75eebd69f0c4987",
+      "src/js/compiler.js": "10efee50fb07fa3f7d9d2d51e74a95bda891c786",
+      "src/js/debug.js": "ab100bc9d113cc6ddd0d4d9efd6244b053e46faa",
+      "src/js/engine.js": "17521c2f9f147c7405ddd51e257f291458cfe54d",
+      "src/js/font.js": "0cde45fc680629a899e1e8f7954543ba3a45af6c",
+      "src/js/globalVariables.js": "8901fd250c1aca3b6ae3539d500fddffd00b7435",
+      "src/js/graphics.js": "30548d58c92cc1ea08e4eff61d7120e2c565bd58",
+      "src/js/inputoutput.js": "8a1223fcd1d10a63617db21d765711f335d43e8c",
+      "src/js/languageConstants.js": "dcd1169d7c8c58f411d493665915d2cc8374ffec",
+      "src/js/level.js": "5d5afb2f2cfdf54811e3086a28356199b4e28221",
+      "src/js/parser.js": "7baf392b84937359f6a1ca345060c98b10e4428d",
+      "src/js/riffwave.js": "df699dd8e83234bbde35493f4ed9fffa5c51bf16",
+      "src/js/rng.js": "1875c10a7df987f3ee1f030f35932425e9e832c2",
+      "src/js/sfxr.js": "31206ebc14148a46ba4c334879c29da1063fe529",
+      "src/js/soundbar.js": "b7a337b6fc06a58f734a9b69ffea81618e542bdc",
+      "src/js/storagewrapper.js": "f06d74db168c374ca8973a0e3b4e82166aeb2e6e"
+    }
+  }
+}

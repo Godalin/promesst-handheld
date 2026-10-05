@@ -20,4 +20,5 @@ conf/
 /assets/promesst2/*
 !/assets/promesst2/.gitkeep
 /downloads/
+/upstream/puzzlescript/
 __pycache__/
