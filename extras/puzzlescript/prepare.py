@@ -59,6 +59,8 @@ Files should end up in /roms/puzzlescript/ or /roms2/puzzlescript/.
 Refresh the game list / restart EmulationStation, then launch PuzzleScript.
 Requires the lr-puzzlescript core provided by supported ArkOS firmware.
 XF40H firmware variants may differ; this pack does not modify firmware.
+Skipping Stones has a large realtime map. If directional input feels delayed,
+try the PuzzleScript PM addon route and compare on your handheld.
 
 Use RetroArch Quick Menu > Save State before exiting. Load State to resume.
 Automatic progress saving is not guaranteed by the core's default settings.
@@ -84,6 +86,9 @@ R1 restart, Select quit. Firmware mappings may differ.
 The engine saves completed-level progress and checkpoints, not every move.
 Skipping Stones uses checkpoints; Mirror Isles / Heroes use level progress.
 For a full mid-level save, use the ArkOS package and RetroArch Save State.
+RetroArch Save State cannot be imported here; keep the ArkOS save separately.
+The Node/V8 runtime is an alternative for slow Skipping Stones input in ArkOS.
+Improvement depends on the handheld and firmware and requires a real test.
 
 Source download hashes are in SOURCES.json. Original redistribution
 permission has not been established: keep this generated pack for local use.

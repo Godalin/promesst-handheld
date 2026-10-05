@@ -41,7 +41,7 @@ python3 extras/puzzlescript/prepare.py --archive-dir /path/to/downloads
 
 ## ArkOS 安装
 
-推荐先试这个包。[ArkOS 官方说明](https://github.com/christianhaitian/arkos/wiki/ArkOS-Emulators-and-Ports-information#puzzlescript)列出了 `lr-puzzlescript` 核心及 `.pz` 格式。
+[ArkOS 官方说明](https://github.com/christianhaitian/arkos/wiki/ArkOS-Emulators-and-Ports-information#puzzlescript)列出了 `lr-puzzlescript` 核心及 `.pz` 格式。Skipping Stones 如果出现方向键响应慢，先试下方 PortMaster 路线，详见性能说明。
 
 1. 将 ArkOS 包里的 `puzzlescript/` 文件夹放到当前使用的 ROM 卡根目录（电脑上一般显示为 `EASYROMS`）。
 2. 文件应位于 `/roms/puzzlescript/` 或 `/roms2/puzzlescript/`。
@@ -65,6 +65,33 @@ python3 extras/puzzlescript/prepare.py --archive-dir /path/to/downloads
 运行器保存已完成的关卡进度和游戏主动创建的检查点；这不等于随时保存当前位置。
 Skipping Stones 使用游戏检查点；Mirror Isles 和 Heroes 以关卡进度为主。如果需要完整的关卡内存档，使用 ArkOS / RetroArch 路线。
 该运行器的屏幕和输入处理依赖具体固件，因此在 XF40H 上仍需验收。
+
+## Skipping Stones 方向键响应慢
+
+XF40H 上已收到 ArkOS PuzzleScript 菜单运行 Skipping Stones 时，按方向键后要等一下才移动的反馈。目前没有取得该设备的核心版本、配置或耗时日志，因此尚未确认唯一原因。
+
+原作使用一张 **76×70** 的大地图，只显示 **19×14** 的当前视区，并通过 `realtime_interval 0.1` 定期执行世界规则。可见范围小，并不意味着引擎只计算这一小块。[lr-puzzlescript 上游](https://github.com/amberwhitehead/pzretro#performance)说明复杂大地图可能无法及时完成更新。
+核对上游 `6d859b47092f585a7ec05804c1d51a1676a06531` 的输入循环：先处理按键事件，再执行时间更新；首次方向输入没有故意等待 0.1 秒的设置。规则运算占用线程时，后续按键需要等当前计算结束；这是本次延迟的一个可能原因，仍需真机测量。
+
+建议先做一次实际对比：
+
+1. 在 ArkOS 的 RetroArch 快捷菜单中保存原来的 Save State。
+2. 从 PortMaster 安装 **PuzzleScript PM**，合并本项目的 `portmaster-addon` 包。
+3. 从 Ports 启动 PuzzleScript PM，选择 **Skipping Stones to Lonely Homes**，对比首次按方向键的响应。
+
+官方 PM 运行器使用 Node.js / V8，ArkOS 核心使用 QuickJS；两条路线需要实测比较，不能据此保证 XF40H 的帧率或延迟。RetroArch Save State 不能直接转成 PM 的存档，需要在 PM 内重新开始，原来的 ArkOS 存档可以继续保留。
+如果继续使用 ArkOS，可检查核心选项 **Anti-Aliased Font** 与 **PuzzleScript Plus Engine** 是否关闭；本作不需要这两个选项，上游默认也均为关闭。修改后重新启动游戏，具体选项以固件提供的核心为准。
+
+没有通过减少地图、删除实时规则或改变计时来缓解延迟，这些修改需要额外验证原作机制与解谜结果。
+
+新增 `benchmark_pm.js` 用于测量固定 PM 引擎的初始地图规则运算与软件绘制耗时：
+
+```bash
+python3 extras/puzzlescript/fetch_test_engine.py
+node extras/puzzlescript/benchmark_pm.js
+```
+
+每项预热后测量 80 次，报告中位数、P95 和最大值。不接触实体输入、显示或音频，也不写玩家存档。结果只代表执行脚本的机器与 Node 版本；不包含控制器采样、显示输出和系统调度，不能当作 XF40H 按键到画面的延迟测试。
 
 ## 兼容性验证
 
