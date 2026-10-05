@@ -1,0 +1,30 @@
+{
+  "promesst": {
+    "version": "1.01",
+    "url": "https://silverspaceship.com/promesst/promesst_linux.tar.bz2",
+    "archive": "promesst_linux.tar.bz2",
+    "sha256": "93661223076c353880514f30e8ca7e3137192b8c6d725da3a193a1ac060f1432",
+    "prefix": "promesst_linux",
+    "source_archive": "promesst_linux_source_code.tar.bz2",
+    "source_prefix": "promesst_linux_source_code",
+    "assets": "data",
+    "source_sha256": {
+      "main.c": "54635bb77b4d8af2916d2255c61355ffec14ef30b362cf500d392efb60c9f8c3",
+      "stb_image.c": "7045682ed5fc550db12e457667213181346d85f24510c84d8c4748362661b5f6"
+    }
+  },
+  "promesst2": {
+    "version": "1.00",
+    "url": "https://silverspaceship.com/promesst2/promesst2_linux.tar.gz",
+    "archive": "promesst2_linux.tar.gz",
+    "sha256": "f9ad595edb680e7c243f063f72ca4d995e9b5f5581e17fcffd73583a300e09dd",
+    "prefix": "promesst2",
+    "source_archive": "promesst2_source_code.zip",
+    "source_prefix": "promesst2_source_code",
+    "assets": "data2",
+    "source_sha256": {
+      "main.c": "cda178a9b2f0b288488591a3c89d497321f40c69b297fc2cd37b6c05894672cc",
+      "stb_image.c": "7045682ed5fc550db12e457667213181346d85f24510c84d8c4748362661b5f6"
+    }
+  }
+}

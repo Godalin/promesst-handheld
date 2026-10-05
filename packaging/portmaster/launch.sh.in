@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# Standalone launcher generated from this template for each game.
+set -u
+port_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+game_dir="$port_dir/@GAME@"
+pm_data_home=${XDG_DATA_HOME:-${HOME:-/tmp}/.local/share}
+controlfolder=""
+for candidate in /opt/system/Tools/PortMaster /opt/tools/PortMaster \
+    "$pm_data_home/PortMaster" "$port_dir/PortMaster" /roms/ports/PortMaster /roms2/ports/PortMaster; do
+    if [[ -f "$candidate/control.txt" ]]; then
+        controlfolder="$candidate"
+        break
+    fi
+done
+if [[ -z "$controlfolder" ]]; then
+    echo "PortMaster is required. Install it from the system's Tools menu first." >&2
+    exit 1
+fi
+# PortMaster's own control scripts may intentionally reference unset variables.
+set +u
+source "$controlfolder/control.txt"
+[[ -f "$controlfolder/mod_${CFW_NAME}.txt" ]] && source "$controlfolder/mod_${CFW_NAME}.txt"
+get_controls
+if [[ ! -d "$game_dir" && -n "${directory:-}" ]]; then
+    game_dir="/${directory#/}/ports/@GAME@"
+fi
+if [[ ! -d "$game_dir" ]]; then
+    echo "Game folder missing: $game_dir" >&2
+    exit 1
+fi
+cd "$game_dir" || exit 1
+exec > >(tee "$game_dir/log.txt") 2>&1
+device_arch=${DEVICE_ARCH:-$(uname -m)}
+binary="@GAME@.$device_arch"
+if [[ "$device_arch" != "aarch64" || ! -f "$game_dir/$binary" ]]; then
+    pm_message "This build needs a 64-bit ARM Linux system (aarch64)."
+    exit 1
+fi
+chmod +x "$game_dir/$binary" 2>/dev/null || true
+if [[ ! -x "$game_dir/$binary" ]]; then
+    pm_message "The game file cannot be executed from this card. Check the installation."
+    exit 1
+fi
+if [[ ! -f "$game_dir/@DATA@/sprites.png" || ! -f "$game_dir/@DATA@/title.png" || ! -f "$game_dir/@DATA@/sss_logo.png" ]]; then
+    pm_message "Original game assets are missing. Follow INSTALL.txt included in the package."
+    exit 1
+fi
+mkdir -p "$game_dir/saves" "$game_dir/conf" || exit 1
+export PROMESST_ASSET_DIR="$game_dir"
+export PROMESST_SAVE_DIR="$game_dir/saves"
+export PROMESST_CONFIG_DIR="$game_dir/conf"
+export SDL_GAMECONTROLLERCONFIG="${sdl_controllerconfig:-${SDL_GAMECONTROLLERCONFIG:-}}"
+export LD_LIBRARY_PATH="$game_dir/libs.$device_arch${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+key_mapper_pid=""
+finish() {
+    if [[ -n "$key_mapper_pid" ]]; then
+        kill "$key_mapper_pid" 2>/dev/null || true
+        wait "$key_mapper_pid" 2>/dev/null || true
+    fi
+    pm_finish
+}
+trap finish EXIT
+run_game() {
+    pm_platform_helper "$game_dir/$binary"
+    "$game_dir/$binary" --fullscreen
+}
+enable_keyboard() {
+    if [[ -z "${GPTOKEYB:-}" ]]; then
+        pm_message "Controller mapping is unavailable. Update PortMaster and retry."
+        return 1
+    fi
+    export PROMESST_KEYBOARD_ONLY=1
+    $GPTOKEYB "$binary" -c "$game_dir/controls.gptk" &
+    key_mapper_pid=$!
+}
+if [[ -f "$game_dir/conf/input_mode.txt" ]] && [[ $(cat "$game_dir/conf/input_mode.txt") == "keyboard" ]]; then
+    enable_keyboard || exit 1
+fi
+run_game
+result=$?
+if [[ "$result" == 78 && -z "${PROMESST_KEYBOARD_ONLY:-}" ]]; then
+    enable_keyboard || exit 1
+    run_game
+    result=$?
+fi
+exit "$result"

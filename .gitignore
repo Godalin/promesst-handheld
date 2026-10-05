@@ -1,0 +1,23 @@
+.DS_Store
+build/
+staging/
+dist/
+CMakeUserPresets.json
+compile_commands.json
+*.log
+
+# 本地游戏运行数据，不提交玩家存档。
+saves/
+conf/
+
+# 原作下载文件和素材由各自从官网获取；仓库只保存获取工具与适配代码。
+/upstream/promesst/*
+!/upstream/promesst/.gitkeep
+/upstream/promesst2/*
+!/upstream/promesst2/.gitkeep
+/assets/promesst/*
+!/assets/promesst/.gitkeep
+/assets/promesst2/*
+!/assets/promesst2/.gitkeep
+/downloads/
+__pycache__/
